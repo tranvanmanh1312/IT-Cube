@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>КубIT — QR-квест</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">⌘</span>
+        <span>КубIT</span>
+      </a>
+      <a class="top-link" href="cube-kit.html">Набор для кубиков</a>
+    </header>
+
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">IT-КВЕСТ ДЛЯ 10–11 КЛАССОВ</p>
+        <h1>Собери QR.<br>Открой задание.<br>Найди слово.</h1>
+        <p class="hero-text">
+          Соберите из 9 кубиков правильную картинку 3×3. Если QR собран верно,
+          камера откроет задание. Шесть QR дают шесть букв — из них нужно
+          самостоятельно составить итоговое IT-слово.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-large" id="startRoundBtn">НАЧАТЬ</button>
+          <button class="btn btn-secondary btn-large hidden" id="newRoundTopBtn">НОВЫЙ РАУНД</button>
+        </div>
+      </div>
+
+      <div class="visual-board" aria-hidden="true">
+        <div class="mini-grid">
+          <span></span><span></span><span></span>
+          <span></span><span class="mini-center">QR</span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <p>9 кубиков · 6 QR · 1 слово</p>
+      </div>
+    </section>
+
+    <section class="intro panel" id="introPanel">
+      <p class="section-label">ПРАВИЛА</p>
+      <div class="rules">
+        <article>
+          <strong>01</strong>
+          <h3>Соберите</h3>
+          <p>Поверните и расположите 9 кубиков так, чтобы получился один цельный QR-код.</p>
+        </article>
+        <article>
+          <strong>02</strong>
+          <h3>Отсканируйте</h3>
+          <p>Совместите поле 3×3 с рамкой камеры. Правильный QR откроет задание.</p>
+        </article>
+        <article>
+          <strong>03</strong>
+          <h3>Решите</h3>
+          <p>Каждое задание даёт одну английскую букву. Запишите её — вводить на сайте не нужно.</p>
+        </article>
+        <article>
+          <strong>04</strong>
+          <h3>Составьте слово</h3>
+          <p>После 6 заданий составьте из полученных букв IT-слово и введите только его.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="game hidden" id="gamePanel">
+      <div class="roundbar">
+        <div>
+          <span>Раунд</span>
+          <strong id="roundId">—</strong>
+        </div>
+        <div>
+          <span>Открыто QR</span>
+          <strong id="progressText">0 / 6</strong>
+        </div>
+        <div>
+          <span>Время</span>
+          <strong id="timerText">00:00</strong>
+        </div>
+      </div>
+
+      <section class="panel progress-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">6 QR-КОДОВ</p>
+            <h2>Открытые задания</h2>
+          </div>
+          <p class="muted">Буквы сайт не показывает — их нужно получить самостоятельно.</p>
+        </div>
+        <div class="face-progress" id="faceProgress"></div>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel scanner-panel" id="scannerPanel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">ШАГ 1</p>
+              <h2>Сканер 3×3</h2>
+            </div>
+            <span class="chip" id="cameraStatus">камера выключена</span>
+          </div>
+
+          <p class="muted">
+            Держите собранный квадрат ровно и совместите его внешние границы с рамкой.
+            Линии внутри рамки соответствуют 9 кубикам.
+          </p>
+
+          <div class="camera-box">
+            <video id="cameraVideo" playsinline muted></video>
+            <div class="camera-placeholder" id="cameraPlaceholder">
+              <div class="camera-symbol">⌗</div>
+              <p>Нажмите «Открыть камеру»</p>
+            </div>
+            <div class="scan-guide">
+              <span class="v v1"></span>
+              <span class="v v2"></span>
+              <span class="h h1"></span>
+              <span class="h h2"></span>
+              <i class="corner c1"></i>
+              <i class="corner c2"></i>
+              <i class="corner c3"></i>
+              <i class="corner c4"></i>
+            </div>
+          </div>
+
+          <canvas id="scanCanvas" width="600" height="600" class="hidden"></canvas>
+          <canvas id="repairCanvas" width="600" height="600" class="hidden"></canvas>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="openCameraBtn">Открыть камеру</button>
+            <button class="btn btn-secondary hidden" id="closeCameraBtn">Закрыть камеру</button>
+          </div>
+
+          <p class="scan-message" id="scanMessage">
+            Сначала соберите один из шести QR-кодов.
+          </p>
+
+          <details class="teacher-test">
+            <summary>Тестовый режим без кубиков</summary>
+            <p>Только для проверки сайта преподавателем.</p>
+            <div class="test-row">
+              <select id="testQrSelect">
+                <option value="KUBIT:FACE:1">QR 1</option>
+                <option value="KUBIT:FACE:2">QR 2</option>
+                <option value="KUBIT:FACE:3">QR 3</option>
+                <option value="KUBIT:FACE:4">QR 4</option>
+                <option value="KUBIT:FACE:5">QR 5</option>
+                <option value="KUBIT:FACE:6">QR 6</option>
+              </select>
+              <button class="btn btn-secondary" id="testOpenBtn">Открыть</button>
+            </div>
+          </details>
+        </section>
+
+        <section class="panel task-panel" id="taskPanel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">ШАГ 2</p>
+              <h2>Задание</h2>
+            </div>
+            <span class="chip" id="taskQrBadge">QR не открыт</span>
+          </div>
+
+          <div class="task-empty" id="taskEmpty">
+            <div class="question-mark">?</div>
+            <p>Когда QR будет собран и считан, здесь появится задание.</p>
+          </div>
+
+          <div class="task-content hidden" id="taskContent">
+            <div class="task-meta">
+              <span class="difficulty" id="difficultyBadge">—</span>
+              <strong id="taskType">—</strong>
+            </div>
+
+            <div class="task-box" id="taskBox"></div>
+
+            <div class="paper-note">
+              <strong>Что делать дальше?</strong>
+              <p>
+                Решите задачу и запишите полученную английскую букву на лист.
+                На этом этапе ничего вводить на сайт не нужно.
+              </p>
+            </div>
+
+            <button class="btn btn-primary" id="scanNextBtn">СКАНИРОВАТЬ СЛЕДУЮЩИЙ QR</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel opened-list-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">МОЖНО ВЕРНУТЬСЯ</p>
+            <h2>Просмотр уже открытых заданий</h2>
+          </div>
+        </div>
+        <div class="opened-list" id="openedList"></div>
+      </section>
+
+      <section class="panel final-panel locked" id="finalPanel">
+        <div class="final-state" id="finalLocked">
+          <span class="lock-icon">⌁</span>
+          <div>
+            <p class="section-label">ФИНАЛ</p>
+            <h2>Итоговое слово пока закрыто</h2>
+            <p>Сначала откройте все 6 QR-кодов.</p>
+          </div>
+        </div>
+
+        <div class="final-ready hidden" id="finalReady">
+          <div>
+            <p class="section-label">ФИНАЛ</p>
+            <h2>У вас есть 6 букв</h2>
+            <p>
+              Составьте из них английское слово, связанное с IT.
+              Порядок букв нужно определить самостоятельно.
+            </p>
+          </div>
+
+          <div class="word-form">
+            <input
+              id="finalWordInput"
+              type="text"
+              maxlength="6"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="______"
+              aria-label="Итоговое слово"
+            >
+            <button class="btn btn-primary" id="checkWordBtn">ПРОВЕРИТЬ</button>
+          </div>
+          <p class="final-feedback" id="finalFeedback" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="panel completed-panel hidden" id="completedPanel">
+        <div class="complete-icon">✓</div>
+        <div class="complete-copy">
+          <p class="section-label">ЗАВЕРШЕНО</p>
+          <h2>Отлично! Слово найдено.</h2>
+          <p id="completeText"></p>
+        </div>
+        <button class="btn btn-primary" id="newRoundBtn">НОВЫЙ РАУНД</button>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

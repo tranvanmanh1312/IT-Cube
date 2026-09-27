@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Набор для 9 кубиков — КубIT</title>
+  <link rel="stylesheet" href="cube-kit.css">
+  <script src="cube-kit.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="screen-only">
+      <div>
+        <p class="eyebrow">КУБIT · ПОДГОТОВКА</p>
+        <h1>Наклейки для 9 кубиков</h1>
+        <p>
+          Используются 9 одинаковых кубиков, которые образуют поле 3×3.
+          Каждый кубик получает 6 наклеек — по одному фрагменту каждого QR.
+        </p>
+      </div>
+      <a href="index.html">← Вернуться в игру</a>
+    </header>
+
+    <section class="info screen-only">
+      <div>
+        <strong>Схема кубиков</strong>
+        <pre>1  2  3
+4  5  6
+7  8  9</pre>
+      </div>
+      <div>
+        <strong>Как наклеивать</strong>
+        <p>
+          На кубик №1 наклейте фрагмент №1 от QR 1, QR 2, ... QR 6.
+          На кубик №2 — фрагмент №2 от всех шести QR и так далее.
+        </p>
+      </div>
+      <div>
+        <strong>Важно</strong>
+        <p>
+          Наклейки должны доходить максимально близко к краям. При сканировании
+          кубики нужно плотно прижать друг к другу.
+        </p>
+      </div>
+    </section>
+
+    <section class="toolbar screen-only">
+      <label>
+        Размер одной грани кубика
+        <select id="sizeSelect">
+          <option value="30">30 × 30 мм</option>
+          <option value="35">35 × 35 мм</option>
+          <option value="40" selected>40 × 40 мм</option>
+          <option value="45">45 × 45 мм</option>
+          <option value="50">50 × 50 мм</option>
+        </select>
+      </label>
+      <button id="printBtn">Печать наклеек</button>
+    </section>
+
+    <section class="preview screen-only">
+      <h2>Как выглядят 6 собранных сторон</h2>
+      <div class="preview-grid" id="previewGrid"></div>
+    </section>
+
+    <section id="faceSheets"></section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,39 @@
+HƯỚNG DẪN NHANH
+
+Mô hình đúng:
+- 9 khối кубик xếp thành 3×3.
+- Mỗi khối có 6 mặt.
+- Mỗi “bức mặt” của cả bộ 3×3 là một QR lớn.
+- Có tổng cộng 6 QR lớn cố định.
+
+Cách dán:
+- Khối 1 nhận mảnh số 1 của QR1, QR2, ... QR6.
+- Khối 2 nhận mảnh số 2 của QR1, QR2, ... QR6.
+- ...
+- Khối 9 nhận mảnh số 9 của QR1, QR2, ... QR6.
+
+Trang cube-kit.html có sẵn toàn bộ mảnh để in.
+
+Luồng chơi:
+START
+→ ghép đúng 1 QR
+→ camera quét
+→ web hiện câu hỏi
+→ học sinh tự giải và ghi lại 1 chữ
+→ KHÔNG nhập đáp án từng câu
+→ tiếp tục đủ 6 QR
+→ thu được 6 chữ ở thứ tự lộn xộn
+→ tự ghép thành một từ IT 6 chữ
+→ nhập duy nhất ở phần FINAL
+→ sai: nhập lại
+→ đúng: hoàn thành.
+
+Mỗi round:
+- QR vật lý giữ nguyên.
+- Từ khóa đổi tự động.
+- 6 chữ được phân lại ngẫu nhiên vào 6 QR.
+- Loại bài và số liệu trong câu hỏi đổi lại.
+
+Để dùng camera:
+python3 -m http.server 8000
+hoặc đưa web lên GitHub Pages / Netlify / Vercel (HTTPS).
