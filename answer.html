@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>Ответы текущего раунда — КубIT</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="answers.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand-icon">⌘</span>
+        <span>КубIT</span>
+      </a>
+      <nav class="top-nav" aria-label="Разделы сайта">
+        <a class="top-link teacher-link" href="answers.html">Ответы раунда</a>
+        <a class="top-link" href="cube-kit.html">Набор для кубиков</a>
+      </nav>
+    </header>
+
+    <section class="answers-hero">
+      <div>
+        <p class="eyebrow">ДЛЯ ВЕДУЩЕГО / ПРЕПОДАВАТЕЛЯ</p>
+        <h1>Ответы текущего раунда</h1>
+        <p>
+          Здесь показываются именно те шесть заданий, которые были сгенерированы
+          в текущем раунде, их правильные буквы, короткое решение и итоговое слово.
+        </p>
+      </div>
+      <span class="teacher-badge">НЕ ПОКАЗЫВАТЬ УЧАСТНИКАМ</span>
+    </section>
+
+    <section class="panel answers-empty hidden" id="noRoundPanel">
+      <p class="section-label">НЕТ АКТИВНОГО РАУНДА</p>
+      <h2>Сначала запустите игру</h2>
+      <p class="muted">Откройте главную страницу и нажмите «НАЧАТЬ». После этого ответы появятся здесь автоматически.</p>
+      <a class="btn btn-primary" href="index.html">ПЕРЕЙТИ К ИГРЕ</a>
+    </section>
+
+    <section class="panel answer-gate hidden" id="answerGate">
+      <div>
+        <p class="section-label">ЗАЩИТА ОТ СЛУЧАЙНОГО ПРОСМОТРА</p>
+        <h2>Показать ответы?</h2>
+        <p>Кнопка ниже не меняет раунд и не влияет на игру. Она только открывает решения для ведущего.</p>
+      </div>
+      <button class="btn btn-primary" id="revealAnswersBtn">ПОКАЗАТЬ ОТВЕТЫ</button>
+    </section>
+
+    <div class="hidden" id="answersContent">
+      <section class="panel answer-summary">
+        <p class="section-label">ТЕКУЩИЙ РАУНД</p>
+        <h2 id="summaryTitle">—</h2>
+        <div class="answer-summary-grid">
+          <div><span>Раунд</span><strong id="answerRoundId">—</strong></div>
+          <div><span>Открыто QR</span><strong id="answerProgress">—</strong></div>
+          <div><span>Итоговое слово</span><strong class="answer-word" id="answerWord">—</strong></div>
+          <div><span>Буквы по QR</span><strong id="answerLetters">—</strong></div>
+        </div>
+      </section>
+
+      <section class="answers-grid" id="answersGrid"></section>
+
+      <section class="panel answer-final">
+        <p class="section-label">ФИНАЛЬНЫЙ ОТВЕТ</p>
+        <h2>Итоговое слово: <strong id="finalAnswerWord">—</strong></h2>
+        <p class="muted" id="finalAnswerMeaning"></p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
