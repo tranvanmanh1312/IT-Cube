@@ -236,3 +236,17 @@ button {
 
   .caption { font-size: 8pt; }
 }
+
+
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+  header { flex-direction: column; }
+  .header-links { justify-content: flex-start; }
+}
